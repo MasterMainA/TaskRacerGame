@@ -3,13 +3,15 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.Timer;
 
-class GameplayPanel extends JPanel {
+class GameplayPanel extends JPanel implements ActionListener {
     private JButton goToMenu;
     private RaceTrack raceTrack;
     private Car playerCar;
 
     private KeyHandler keyHandler;
     private long lastTime;
+
+    private Timer gameTimer;
 
 
     public GameplayPanel() {
@@ -23,6 +25,7 @@ class GameplayPanel extends JPanel {
 
         Color buttonColor = new Color(188, 188, 188);
         goToMenu.setBackground(buttonColor);
+
 
         add(goToMenu);
 
@@ -39,7 +42,10 @@ class GameplayPanel extends JPanel {
         });
 
         this.raceTrack = new RaceTrack();
+
         this.playerCar = new Car(700, 600);
+
+        gameTimer = new Timer(16, this);
 
         this.keyHandler = new KeyHandler();
         this.addKeyListener(keyHandler);
@@ -48,25 +54,20 @@ class GameplayPanel extends JPanel {
     }
 
     @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
+    public void paint(Graphics g) {
+        super.paint(g);
         Graphics2D g2d = (Graphics2D) g;
 
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
 
-        g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-        g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-
-        raceTrack.draw(g2d);
+        raceTrack.draw(g2d, getWidth(), getHeight());
         playerCar.draw(g2d);
     }
 
-    public void startGame() {
-        this.requestFocusInWindow();
-
-        lastTime = System.nanoTime();
-
-        Timer gameTimer = new Timer(16, e -> {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == gameTimer) {
             long currentTime = System.nanoTime();
             double deltaTime = (currentTime - lastTime) / 1_000_000_000.0;
             lastTime = currentTime;
@@ -79,9 +80,15 @@ class GameplayPanel extends JPanel {
                     deltaTime
             );
             repaint();
-        });
+        }
+    }
+
+    public void startGame() {
+        this.requestFocusInWindow();
+        lastTime = System.nanoTime();
         gameTimer.start();
     }
+
 }
 
 

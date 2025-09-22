@@ -1,15 +1,23 @@
-import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.*;
 import java.util.*;
+import java.util.List;
+
 class RaceTrack {
-    private GeneralPath outerTrackPath; // Внешние границы
-    private GeneralPath innerTrackPath;  // Внутренние границы (бордюры)
-    private Area roadArea;               // Область дороги
+    private Path2D outerTrackPath;  // Внешние границы
+    private Path2D innerTrackPath;  // Внутренние границы (бордюры)
+    private Area roadArea;          // Область дороги
+
+    private static final double SCALE = 100.0;
+    // Параметры
+    private double a = 1.8; // max - ~2
+    private double b = 0.5; // max - ~2
+    private int m = 6;
+    private int n = 2;
 
     public RaceTrack() {
-        this.outerTrackPath = createOuterTrack();
-        this.innerTrackPath = createInnerTrack();
+        this.outerTrackPath = createTrack(1536, 801, false);
+        this.innerTrackPath = createTrack(1536, 801, true);
         this.roadArea = createRoadArea();
     }
 
@@ -19,17 +27,11 @@ class RaceTrack {
         return area;
     }
 
-    public void draw(Graphics gr) {
+    public void draw(Graphics gr, double panelWidth, double panelHeight) {
         Graphics2D g = (Graphics2D) gr;
-
-        g.setColor(Color.BLACK);
-        g.drawRect(50, 50, 1100, 700);
-        g.fillRect(50, 50, 1100, 700);
-
-        Color color = new Color(79, 144, 24);
-        g.setColor(color);
-        g.drawRect(150, 150, 900, 500);
-        g.fillRect(150, 150, 900, 500);
+        drawCenteredRoundedRectangle(g, panelWidth, panelHeight, Color.BLACK, 0.9);
+        Color colorFieldTerrain = new Color(79, 144, 24);
+        drawCenteredRoundedRectangle(g, panelWidth, panelHeight, colorFieldTerrain, 0.7);
 
         g.setColor(Color.GRAY);
         g.fill(roadArea);
@@ -38,143 +40,66 @@ class RaceTrack {
         g.setStroke(new BasicStroke(3f));
         g.draw(outerTrackPath);
         g.draw(innerTrackPath);
-
-//        // Центральная разделительная линия
-//        g.setStroke(new BasicStroke(1f, BasicStroke.CAP_BUTT,
-//                BasicStroke.JOIN_BEVEL, 0, new float[]{10, 10}, 0));
-//        g.setColor(Color.YELLOW);
-//        // drawCenterLine(g);
     }
 
-    private GeneralPath createOuterTrack() {
-        GeneralPath trackPath = new GeneralPath();
+    private void drawCenteredRoundedRectangle(Graphics2D g2d, double panelWidth, double panelHeight, Color color, double k) {
+        int rectWidth = (int) (panelWidth * k);
+        int rectHeight = (int) (panelHeight * k);
 
-        trackPath.moveTo(230, 625);
-        trackPath.lineTo(1000, 625);
+        int x = (int) ((panelWidth - rectWidth) / 2);
+        int y = (int) ((panelHeight - rectHeight) / 2);
 
-        trackPath.curveTo(1010, 625,
-                1025, 625,
-                1025, 600);
+        int arcWidth = 40;
+        int arcHeight = 40;
 
-        trackPath.lineTo(1025, 225);
+        g2d.setColor(color);
 
-        trackPath.curveTo(1025, 215,
-                1025, 200,
-                1000, 200);
-
-        trackPath.lineTo(550, 200);
-
-        trackPath.curveTo(550, 200,
-                475, 125,
-                400, 200);
-
-        trackPath.lineTo(230, 200);
-
-        trackPath.curveTo(230, 200,
-                175, 210,
-                175, 262.5);
-
-        trackPath.curveTo(175, 262.5,
-                175, 315,
-                230, 325);
-
-        trackPath.lineTo(700, 325);
-
-        trackPath.curveTo(700, 325,
-                715, 337.5,
-                700, 350);
-
-        trackPath.lineTo(230, 350);
-
-        trackPath.curveTo(230, 350,
-                175, 360,
-                175, 412.5);
-
-        trackPath.curveTo(175, 412.5,
-                175, 465,
-                230, 475);
-
-        trackPath.lineTo(700, 475);
-
-        trackPath.curveTo(700, 325 + 150,
-                715, 337.5+150,
-                700, 350+150);
-
-        trackPath.lineTo(230, 350+150);
-
-        trackPath.curveTo(230, 350+150,
-                175, 360+150,
-                175, 412.5+150);
-
-        trackPath.curveTo(175, 412.5+150,
-                175, 465+150,
-                230, 475+150);
-
-        return trackPath;
+        g2d.fillRoundRect(x, y, rectWidth, rectHeight, arcWidth, arcHeight);
     }
 
-    private GeneralPath createInnerTrack() {
-        GeneralPath trackPath = new GeneralPath();
+    private Path2D createTrack(double panelWidth, double panelHeight, boolean isInner) {
+        int centerX = (int) (panelWidth / 2);
+        int centerY = (int) (panelHeight / 2);
 
-        trackPath.moveTo(250, 575);
-        trackPath.lineTo(950, 575);
+        double trackScale = isInner ? SCALE * 0.5 : SCALE;
 
-        trackPath.curveTo(960, 575,
-                975, 575,
-                975, 550);
+        List<Point2D.Double> points = new ArrayList<>();
+        for (double theta = 0; theta < 2 * Math.PI; theta += 0.05) {
+            double radius = computeRadius(theta);
+            Point2D.Double point = polarToCartesian(radius, theta);
+            points.add(point);
+        }
 
-        trackPath.lineTo(975, 275);
+        Path2D.Double path = new Path2D.Double();
+        boolean firstPoint = true;
 
-        trackPath.curveTo(975, 265,
-                975, 250,
-                950, 250);
+        for (Point2D.Double point : points) {
+            int x = centerX + (int) (point.x * trackScale);
+            int y = centerY - (int) (point.y * trackScale);
 
-        trackPath.lineTo(550, 250);
+            if (firstPoint) {
+                path.moveTo(x, y);
+                firstPoint = false;
+            } else {
+                path.lineTo(x, y);
+            }
+        }
 
-        trackPath.curveTo(550, 250,
-                475, 175,
-                400, 250);
+        path.closePath();
 
-        trackPath.lineTo(250, 250);
-
-        trackPath.curveTo(250, 250,
-                235, 262.5,
-                250, 275);
-
-        trackPath.lineTo(720, 275);
-
-        trackPath.curveTo(720, 275,
-                765, 285,
-                765, 337.5);
-
-        trackPath.curveTo(765, 337.5,
-                765, 390,
-                720, 400);
-
-        trackPath.lineTo(250, 400);
-
-        trackPath.curveTo(250, 400,
-                235, 412.5,
-                250, 425);
-
-        trackPath.lineTo(720, 425);
-
-        trackPath.curveTo(720, 425,
-                765, 435,
-                765, 487.5);
-
-        trackPath.curveTo(765, 487.5,
-                765, 540.0,
-                720, 550.0);
-
-        trackPath.lineTo(250, 550.0);
-
-        trackPath.curveTo(250, 400+150,
-                235, 412.5+150,
-                250, 425+150);
-
-        trackPath.closePath();
-
-        return trackPath;
+        return path;
     }
+
+    // Функция для вычисления радиуса в полярных координатах
+    private double computeRadius(double theta) {
+        return a + b * Math.cos(n * theta) * Math.sin(m * theta);
+    }
+
+    // Преобразование полярных координат в декартовы
+    private Point2D.Double polarToCartesian(double radius, double theta) {
+        double x = radius * Math.cos(theta);
+        double y = radius * Math.sin(theta);
+        return new Point2D.Double(x, y);
+    }
+
 }
