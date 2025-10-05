@@ -10,15 +10,12 @@ class RaceTrack {
 
     private static final double SCALE = 100.0;
     // Параметры
-    private double a = 1.8; // max - ~2
-    private double b = 0.5; // max - ~2
-    private int m = 6;
+    private double a = 2; // max - ~2
+    private double b = 1.2; // max - ~2
+    private int m = 2;
     private int n = 2;
 
     public RaceTrack() {
-        this.outerTrackPath = createTrack(1536, 801, false);
-        this.innerTrackPath = createTrack(1536, 801, true);
-        this.roadArea = createRoadArea();
     }
 
     private Area createRoadArea() {
@@ -32,6 +29,10 @@ class RaceTrack {
         drawCenteredRoundedRectangle(g, panelWidth, panelHeight, Color.BLACK, 0.9);
         Color colorFieldTerrain = new Color(79, 144, 24);
         drawCenteredRoundedRectangle(g, panelWidth, panelHeight, colorFieldTerrain, 0.7);
+
+        outerTrackPath = createTrack(1536, 801, false);
+        innerTrackPath = createTrack(1536, 801, true);
+        roadArea = createRoadArea();
 
         g.setColor(Color.GRAY);
         g.fill(roadArea);
@@ -61,7 +62,7 @@ class RaceTrack {
         int centerX = (int) (panelWidth / 2);
         int centerY = (int) (panelHeight / 2);
 
-        double trackScale = isInner ? SCALE * 0.5 : SCALE;
+        double trackScale = isInner ? SCALE * 0.6 : SCALE;
 
         List<Point2D.Double> points = new ArrayList<>();
         for (double theta = 0; theta < 2 * Math.PI; theta += 0.05) {

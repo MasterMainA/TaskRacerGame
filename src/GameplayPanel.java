@@ -7,6 +7,7 @@ class GameplayPanel extends JPanel implements ActionListener {
     private JButton goToMenu;
     private RaceTrack raceTrack;
     private Car playerCar;
+    private Tribune tribune;
 
     private KeyHandler keyHandler;
     private long lastTime;
@@ -26,7 +27,6 @@ class GameplayPanel extends JPanel implements ActionListener {
         Color buttonColor = new Color(188, 188, 188);
         goToMenu.setBackground(buttonColor);
 
-
         add(goToMenu);
 
         setBackground(new Color(81, 81, 81));
@@ -42,6 +42,7 @@ class GameplayPanel extends JPanel implements ActionListener {
         });
 
         this.raceTrack = new RaceTrack();
+        this.tribune = new Tribune();
 
         this.playerCar = new Car(700, 600);
 
@@ -61,8 +62,12 @@ class GameplayPanel extends JPanel implements ActionListener {
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
 
-        raceTrack.draw(g2d, getWidth(), getHeight());
+        int panelWidth = getWidth();
+        int panelHeight = getHeight();
+
+        raceTrack.draw(g2d, panelWidth, panelHeight);
         playerCar.draw(g2d);
+        tribune.draw(g, panelWidth, panelHeight);
     }
 
     @Override
