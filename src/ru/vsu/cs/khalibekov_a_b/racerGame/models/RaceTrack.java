@@ -50,6 +50,24 @@ public class RaceTrack {
         g.draw(innerTrackPath);
     }
 
+    public void drawForPreview(Graphics gr) {
+        Graphics2D g = (Graphics2D) gr;
+
+        // Пересоздаем пути с правильными параметрами
+        outerTrackPath = createTrack(1536, 801, false);
+        innerTrackPath = createTrack(1536, 801, true);
+        roadArea = createRoadArea();
+
+        // Рисуем только дорогу и границы трека
+        g.setColor(Color.GRAY);
+        g.fill(roadArea);
+
+        g.setColor(Color.WHITE);
+        g.setStroke(new BasicStroke(3f));
+        g.draw(outerTrackPath);
+        g.draw(innerTrackPath);
+    }
+
     private void drawCenteredRoundedRectangle(Graphics2D g2d, double panelWidth, double panelHeight, Color color, double k) {
         int rectWidth = (int) (panelWidth * k);
         int rectHeight = (int) (panelHeight * k);

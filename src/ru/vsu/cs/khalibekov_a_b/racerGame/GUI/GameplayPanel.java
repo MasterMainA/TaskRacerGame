@@ -5,6 +5,7 @@ import ru.vsu.cs.khalibekov_a_b.racerGame.keyHandler.KeyHandler;
 import ru.vsu.cs.khalibekov_a_b.racerGame.models.Car;
 import ru.vsu.cs.khalibekov_a_b.racerGame.models.RaceTrack;
 import ru.vsu.cs.khalibekov_a_b.racerGame.models.Tribune;
+import ru.vsu.cs.khalibekov_a_b.racerGame.models.trackCalculate.TrackCalculator;
 
 import javax.swing.*;
 import java.awt.*;
@@ -100,6 +101,12 @@ public class GameplayPanel extends JPanel implements ActionListener {
         this.requestFocusInWindow();
         lastTime = System.nanoTime();
         gameTimer.start();
+    }
+
+    public void setTrackCalculator(TrackCalculator trackCalculator) {
+        if (raceTrack != null) {
+            raceTrack.setTrackCalculator(trackCalculator);
+        }
     }
 
 }
