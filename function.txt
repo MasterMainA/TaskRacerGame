@@ -1,0 +1,25 @@
+r(\theta)=a+b*\cos(n\theta)*\sin(m\theta)
+
+    
+
+    private double a = 2; // max - ~2
+    private double b = 1.2; // max - ~2
+    private int m = 2;
+    private int n = 2;
+
+
+
+
+
+    private double a = 2; // max - ~2
+    private double b = 1.2; // max - ~2
+    private int m = 0;
+    private int n = 2;
+
+
+
+
+    private double a = 2; // max - ~2
+    private double b = 1; // max - ~2
+    private int m = 1;
+    private int n = 1;

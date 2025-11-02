@@ -1,9 +1,17 @@
+package ru.vsu.cs.khalibekov_a_b.racerGame.GUI;
+
+import ru.vsu.cs.khalibekov_a_b.racerGame.RacingGame;
+import ru.vsu.cs.khalibekov_a_b.racerGame.keyHandler.KeyHandler;
+import ru.vsu.cs.khalibekov_a_b.racerGame.models.Car;
+import ru.vsu.cs.khalibekov_a_b.racerGame.models.RaceTrack;
+import ru.vsu.cs.khalibekov_a_b.racerGame.models.Tribune;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
-import javax.swing.Timer;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-class GameplayPanel extends JPanel implements ActionListener {
+public class GameplayPanel extends JPanel implements ActionListener {
     private JButton goToMenu;
     private RaceTrack raceTrack;
     private Car playerCar;

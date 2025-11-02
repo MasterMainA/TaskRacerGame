@@ -1,11 +1,13 @@
+package ru.vsu.cs.khalibekov_a_b.racerGame.keyHandler;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener {
-    boolean WPressed;
-    boolean SPressed;
-    boolean APressed;
-    boolean DPressed;
+    public boolean WPressed;
+    public boolean SPressed;
+    public boolean APressed;
+    public boolean DPressed;
 
     @Override
     public void keyTyped(KeyEvent e) {

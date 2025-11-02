@@ -1,3 +1,9 @@
+package ru.vsu.cs.khalibekov_a_b.racerGame;
+
+import ru.vsu.cs.khalibekov_a_b.racerGame.GUI.ChooseCarPanel;
+import ru.vsu.cs.khalibekov_a_b.racerGame.GUI.GameplayPanel;
+import ru.vsu.cs.khalibekov_a_b.racerGame.GUI.StartMenuPanel;
+
 import javax.swing.*;
 import java.awt.*;
 

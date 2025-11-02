@@ -1,9 +1,16 @@
+package ru.vsu.cs.khalibekov_a_b.racerGame.models;
+
 import java.awt.*;
 
 public class Spectator {
+    public interface ColorSchema {
+        Color getSkinColor();
+        Color getClothesColor();
+    }
     private final Color BODY_COLOR;
     private final Color CLOTHES_COLOR;
     private final Color HEAD_COLOR;
+    private ColorSchema cs;
     private final int x;
     private final int y;
     private final int width;

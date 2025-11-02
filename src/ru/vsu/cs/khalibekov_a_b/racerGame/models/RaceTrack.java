@@ -1,9 +1,13 @@
+package ru.vsu.cs.khalibekov_a_b.racerGame.models;
+
+import ru.vsu.cs.khalibekov_a_b.racerGame.models.trackCalculate.*;
+
 import java.awt.*;
 import java.awt.geom.*;
 import java.util.*;
 import java.util.List;
 
-class RaceTrack {
+public class RaceTrack {
     private Path2D outerTrackPath;  // Внешние границы
     private Path2D innerTrackPath;  // Внутренние границы (бордюры)
     private Area roadArea;          // Область дороги
@@ -11,11 +15,14 @@ class RaceTrack {
     private static final double SCALE = 100.0;
     // Параметры
     private double a = 2; // max - ~2
-    private double b = 1.2; // max - ~2
-    private int m = 2;
-    private int n = 2;
+    private double b = 1; // max - ~2
+    private int m = 1;
+    private int n = 1;
+
+    private TrackCalculator trackCalculator;
 
     public RaceTrack() {
+        this.trackCalculator = new BasicTrackCalculator();
     }
 
     private Area createRoadArea() {
@@ -65,7 +72,8 @@ class RaceTrack {
         double trackScale = isInner ? SCALE * 0.6 : SCALE;
 
         List<Point2D.Double> points = new ArrayList<>();
-        for (double theta = 0; theta < 2 * Math.PI; theta += 0.05) {
+        for (int i = 0; i < 127; i++) {
+            double theta = i * 2 * Math.PI / 127;
             double radius = computeRadius(theta);
             Point2D.Double point = polarToCartesian(radius, theta);
             points.add(point);
@@ -93,7 +101,7 @@ class RaceTrack {
 
     // Функция для вычисления радиуса в полярных координатах
     private double computeRadius(double theta) {
-        return a + b * Math.cos(n * theta) * Math.sin(m * theta);
+        return trackCalculator.compute(theta);
     }
 
     // Преобразование полярных координат в декартовы
@@ -101,6 +109,22 @@ class RaceTrack {
         double x = radius * Math.cos(theta);
         double y = radius * Math.sin(theta);
         return new Point2D.Double(x, y);
+    }
+
+    public void setTrackCalculator(TrackCalculator trackCalculator) {
+        this.trackCalculator = trackCalculator;
+    }
+
+    public void randomizeParameters() {
+        Random random = new Random();
+
+        a = 1.0 + random.nextDouble();
+
+        b = 0.5 + random.nextDouble();
+
+        m = random.nextInt(4);
+
+        n = random.nextInt(4);
     }
 
 }

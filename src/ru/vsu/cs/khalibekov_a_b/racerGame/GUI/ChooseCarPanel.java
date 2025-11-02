@@ -1,9 +1,13 @@
+package ru.vsu.cs.khalibekov_a_b.racerGame.GUI;
+
+import ru.vsu.cs.khalibekov_a_b.racerGame.RacingGame;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-class ChooseCarPanel extends JPanel {
+public class ChooseCarPanel extends JPanel {
     private JButton goBack;
     private JButton car1;
     private JButton car2;

@@ -1,3 +1,5 @@
+package ru.vsu.cs.khalibekov_a_b.racerGame.models;
+
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 
