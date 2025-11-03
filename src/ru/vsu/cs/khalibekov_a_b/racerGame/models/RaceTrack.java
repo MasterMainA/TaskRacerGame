@@ -13,11 +13,6 @@ public class RaceTrack {
     private Area roadArea;          // Область дороги
 
     private static final double SCALE = 100.0;
-    // Параметры
-    private double a = 2; // max - ~2
-    private double b = 1; // max - ~2
-    private int m = 1;
-    private int n = 1;
 
     private TrackCalculator trackCalculator;
 
@@ -53,12 +48,10 @@ public class RaceTrack {
     public void drawForPreview(Graphics gr) {
         Graphics2D g = (Graphics2D) gr;
 
-        // Пересоздаем пути с правильными параметрами
         outerTrackPath = createTrack(1536, 801, false);
         innerTrackPath = createTrack(1536, 801, true);
         roadArea = createRoadArea();
 
-        // Рисуем только дорогу и границы трека
         g.setColor(Color.GRAY);
         g.fill(roadArea);
 
@@ -132,17 +125,4 @@ public class RaceTrack {
     public void setTrackCalculator(TrackCalculator trackCalculator) {
         this.trackCalculator = trackCalculator;
     }
-
-    public void randomizeParameters() {
-        Random random = new Random();
-
-        a = 1.0 + random.nextDouble();
-
-        b = 0.5 + random.nextDouble();
-
-        m = random.nextInt(4);
-
-        n = random.nextInt(4);
-    }
-
 }

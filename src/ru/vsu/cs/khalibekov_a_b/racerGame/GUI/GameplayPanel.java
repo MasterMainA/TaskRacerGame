@@ -20,7 +20,6 @@ public class GameplayPanel extends JPanel implements ActionListener {
 
     private KeyHandler keyHandler;
     private long lastTime;
-
     private Timer gameTimer;
 
 
@@ -108,7 +107,4 @@ public class GameplayPanel extends JPanel implements ActionListener {
             raceTrack.setTrackCalculator(trackCalculator);
         }
     }
-
 }
-
-

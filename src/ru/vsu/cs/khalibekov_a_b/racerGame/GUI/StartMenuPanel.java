@@ -86,5 +86,4 @@ public class StartMenuPanel extends JPanel {
             }
         });
     }
-
 }

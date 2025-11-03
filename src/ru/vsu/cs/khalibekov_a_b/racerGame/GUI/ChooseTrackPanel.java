@@ -6,9 +6,6 @@ import ru.vsu.cs.khalibekov_a_b.racerGame.models.RaceTrack;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.geom.AffineTransform;
 
 public class ChooseTrackPanel extends JPanel {
     private JButton backButton;
@@ -28,8 +25,8 @@ public class ChooseTrackPanel extends JPanel {
     private JLabel nValueLabel;
 
     private JPanel previewPanel;
-    private JPanel controlPanel; // Панель с кнопками выбора
-    private JPanel parametersPanel; // Панель с параметрами
+    private JPanel controlPanel;
+    private JPanel parametersPanel;
 
     private RaceTrack previewTrack;
     private BasicTrackCalculator currentCalculator;
@@ -46,43 +43,37 @@ public class ChooseTrackPanel extends JPanel {
         setupLayout();
         setupEventListeners();
 
-        // Показываем только панель управления сначала
         showControlPanel();
     }
 
     private void initializeComponents() {
-        // Кнопки выбора типа трека
         backButton = createStyledButton("Назад");
         basicTrackButton = createStyledButton("Базовый трек");
         randomTrackButton = createStyledButton("Случайный трек");
         customTrackButton = createStyledButton("Настроить параметры");
         previewButton = createStyledButton("Начать гонку");
 
-        // Слайдеры для параметров
-        aSlider = createParameterSlider(10, 30, 20); // a: 1.0 - 3.0
+        aSlider = createParameterSlider(10, 25, 20); // a: 1.0 - 2.5
         bSlider = createParameterSlider(5, 20, 10);  // b: 0.5 - 2.0
         mSlider = createParameterSlider(1, 4, 1);    // m: 1-4
         nSlider = createParameterSlider(1, 4, 1);    // n: 1-4
 
-        // Метки для отображения значений
         aValueLabel = createValueLabel("2.0");
         bValueLabel = createValueLabel("1.0");
         mValueLabel = createValueLabel("1");
         nValueLabel = createValueLabel("1");
 
-        // Панель предпросмотра
         previewPanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 if (previewTrack != null) {
-                    // Просто рисуем трек без всяких трансформаций
                     Graphics2D g2d = (Graphics2D) g;
                     g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-                    g2d.translate(0, -160);
+                    g2d.translate(0, -155);
                     previewTrack.drawForPreview(g);
-                    g2d.translate(0, 160);
+                    g2d.translate(0, 155);
                 }
             }
         };
@@ -96,24 +87,19 @@ public class ChooseTrackPanel extends JPanel {
     }
 
     private void setupLayout() {
-        // Верхняя панель с кнопкой назад
         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         topPanel.setBackground(new Color(81, 81, 81));
         topPanel.add(backButton);
 
-        // Центральная панель для контента
         JPanel centerPanel = new JPanel(new BorderLayout());
         centerPanel.setBackground(new Color(81, 81, 81));
         centerPanel.setBorder(BorderFactory.createEmptyBorder(20, 50, 20, 50));
 
-        // Добавляем предпросмотр в центр
         centerPanel.add(previewPanel, BorderLayout.CENTER);
 
-        // Основная компоновка
         add(topPanel, BorderLayout.NORTH);
         add(centerPanel, BorderLayout.CENTER);
 
-        // Изначально показываем панель управления
         add(controlPanel, BorderLayout.SOUTH);
     }
 
@@ -136,11 +122,9 @@ public class ChooseTrackPanel extends JPanel {
         panel.setBackground(new Color(81, 81, 81));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 
-        // Панель для слайдеров в две колонки
         JPanel slidersPanel = new JPanel(new GridLayout(2, 2, 8, 10));
         slidersPanel.setBackground(new Color(81, 81, 81));
 
-        // Добавляем слайдеры с метками в две колонки
         slidersPanel.add(createSliderPanel("a:", aSlider, aValueLabel));
         slidersPanel.add(createSliderPanel("b:", bSlider, bValueLabel));
         slidersPanel.add(createSliderPanel("m:", mSlider, mValueLabel));
@@ -148,10 +132,9 @@ public class ChooseTrackPanel extends JPanel {
 
         panel.add(slidersPanel);
 
-        return panel; // Без кнопки "Назад к выбору"
+        return panel;
     }
 
-    // Вспомогательный метод для создания панели слайдера
     private JPanel createSliderPanel(String label, JSlider slider, JLabel valueLabel) {
         JPanel panel = new JPanel(new BorderLayout(2, 2));
         panel.setBackground(new Color(81, 81, 81));
@@ -170,11 +153,9 @@ public class ChooseTrackPanel extends JPanel {
 
     private void setupEventListeners() {
         backButton.addActionListener(e -> {
-            // Если открыта панель параметров - возвращаемся к выбору трека
-            if (parametersPanel.isVisible() || controlPanel.getParent() == null) {
+            if (parametersPanel.getParent() != null && parametersPanel.isVisible()) {
                 showControlPanel();
             } else {
-                // Иначе возвращаемся в главное меню
                 goBackToMainMenu();
             }
         });
@@ -233,27 +214,22 @@ public class ChooseTrackPanel extends JPanel {
     }
 
     private void updateParameterValues() {
-        // Обновляем значения параметров (с масштабированием для a и b)
         double aValue = aSlider.getValue() / 10.0;
         double bValue = bSlider.getValue() / 10.0;
         int mValue = mSlider.getValue();
         int nValue = nSlider.getValue();
 
-        // Обновляем метки
         aValueLabel.setText(String.format("%.1f", aValue));
         bValueLabel.setText(String.format("%.1f", bValue));
         mValueLabel.setText(String.valueOf(mValue));
         nValueLabel.setText(String.valueOf(nValue));
 
-        // Обновляем калькулятор
         currentCalculator.setParameters(aValue, bValue, mValue, nValue);
 
-        // Обновляем предпросмотр
         previewPanel.repaint();
     }
 
     private void setBasicTrack() {
-        // Базовые параметры: a=2.0, b=1.0, m=1, n=1
         aSlider.setValue(20);
         bSlider.setValue(10);
         mSlider.setValue(1);
@@ -262,8 +238,7 @@ public class ChooseTrackPanel extends JPanel {
     }
 
     private void setRandomTrack() {
-        // Случайные параметры
-        aSlider.setValue(10 + (int)(Math.random() * 21)); // 1.0 - 3.0
+        aSlider.setValue(10 + (int)(Math.random() * 16)); // 1.0 - 3.0
         bSlider.setValue(5 + (int)(Math.random() * 16));  // 0.5 - 2.0
         mSlider.setValue(1 + (int)(Math.random() * 4));   // 1-4
         nSlider.setValue(1 + (int)(Math.random() * 4));   // 1-4
@@ -271,7 +246,6 @@ public class ChooseTrackPanel extends JPanel {
     }
 
     private void showControlPanel() {
-        // Убираем parametersPanel и показываем controlPanel
         remove(parametersPanel);
         add(controlPanel, BorderLayout.SOUTH);
         controlPanel.setVisible(true);
@@ -280,7 +254,6 @@ public class ChooseTrackPanel extends JPanel {
     }
 
     private void showParametersPanel() {
-        // Убираем controlPanel и показываем parametersPanel
         remove(controlPanel);
         add(parametersPanel, BorderLayout.SOUTH);
         parametersPanel.setVisible(true);
@@ -292,7 +265,6 @@ public class ChooseTrackPanel extends JPanel {
         RacingGame mainFrame = (RacingGame) SwingUtilities.getWindowAncestor(ChooseTrackPanel.this);
         GameplayPanel gameplayPanel = new GameplayPanel();
 
-        // Передаем текущий калькулятор в игровую панель
         gameplayPanel.setTrackCalculator(currentCalculator);
 
         mainFrame.changePanel(gameplayPanel);
