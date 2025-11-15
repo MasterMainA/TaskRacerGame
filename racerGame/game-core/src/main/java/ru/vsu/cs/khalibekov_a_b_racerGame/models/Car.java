@@ -1,7 +1,4 @@
-package ru.vsu.cs.khalibekov_a_b.racerGame.models;
-
-import java.awt.*;
-import java.awt.geom.AffineTransform;
+package ru.vsu.cs.khalibekov_a_b_racerGame.models;
 
 public class Car {
     private double x;
@@ -30,11 +27,11 @@ public class Car {
         this.TURN_SPEED = 2.5;
     }
 
-    public void updateControls(boolean accelerate, boolean brake, boolean turnLeft, boolean turnRight, double deltaTime) {
-        if (accelerate) {
-            speed += ACCELERATION * deltaTime;
-        } else if (brake) {
-            speed -= BRAKING * deltaTime;
+    public void update(double acceleration, double steering, double deltaTime) {
+        if (acceleration > 0) {
+            speed += ACCELERATION * deltaTime * acceleration;
+        } else if (acceleration < 0) {
+            speed += BRAKING * deltaTime * acceleration;
         } else {
             if (speed > 0) {
                 speed = Math.max(0, speed - FRICTION * deltaTime * speed);
@@ -47,37 +44,11 @@ public class Car {
 
         if (Math.abs(speed) > 5) {
             double turnFactor = Math.min(1.0, Math.abs(speed) / 50.0);
-            if (turnLeft) {
-                angle -= TURN_SPEED * deltaTime * turnFactor;
-            }
-            if (turnRight) {
-                angle += TURN_SPEED * deltaTime * turnFactor;
-            }
+            angle += TURN_SPEED * deltaTime * steering * turnFactor;
         }
 
         x -= speed * Math.cos(angle) * deltaTime;
         y -= speed * Math.sin(angle) * deltaTime;
-    }
-
-    public void draw(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
-
-        AffineTransform oldTransform = g2d.getTransform();
-
-        g2d.rotate(angle, x + 10, y + 5);
-
-        g2d.setColor(Color.RED);
-        g2d.fillRect((int) x, (int) y, 20, 10);
-
-        g2d.setColor(Color.BLACK);
-        g2d.fillRect((int) x + 15, (int) y + 2, 3, 6);
-        g2d.fillRect((int) x + 2, (int) y + 2, 3, 6);
-
-        g2d.setTransform(oldTransform);
-
-        g2d.setColor(Color.WHITE);
-        g2d.drawString(String.format("Speed: %.1f", speed), (int) x - 30, (int) y - 10);
-        g2d.drawString(String.format("Angle: %.1f", Math.toDegrees(angle)), (int) x - 30, (int) y - 25);
     }
 
     public double getX() {
@@ -103,5 +74,13 @@ public class Car {
 
     public void setAngle(double angle) {
         this.angle = angle;
+    }
+
+    public double getWidth() {
+        return 20.0;
+    }
+
+    public double getHeight() {
+        return 10.0;
     }
 }

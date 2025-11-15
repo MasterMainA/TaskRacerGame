@@ -1,0 +1,96 @@
+package ru.vsu.cs.khalibekov_a_b_racerGame.gui;
+
+import ru.vsu.cs.khalibekov_a_b_racerGame.models.Car;
+import ru.vsu.cs.khalibekov_a_b_racerGame.models.RaceTrack;
+
+import javax.swing.*;
+import java.awt.*;
+
+public class StartMenuPanel extends JPanel {
+    private JButton start;
+    private JButton chooseCar;
+    private JButton chooseTrack;
+    private JButton exit;
+    private JFrame parentFrame;
+
+    private Car selectedCar;
+    private RaceTrack selectedTrack;
+
+    public StartMenuPanel(JFrame parentFrame) {
+        this.parentFrame = parentFrame;
+
+        this.selectedCar = new Car(700, 600);
+        this.selectedTrack = new RaceTrack();
+
+        initializeUI();
+    }
+
+    private void initializeUI() {
+        setLayout(new GridLayout(4, 1, 0, 20));
+        setBorder(BorderFactory.createEmptyBorder(200, 400, 200, 400));
+
+        this.start = createMenuButton("Старт!");
+        this.chooseCar = createMenuButton("Выбор машины");
+        this.chooseTrack = createMenuButton("Выбор трека");
+        this.exit = createMenuButton("Выход");
+
+        add(start);
+        add(chooseCar);
+        add(chooseTrack);
+        add(exit);
+
+        setBackground(new Color(81, 81, 81));
+        setupEventListeners();
+    }
+
+    private JButton createMenuButton(String text) {
+        JButton button = new JButton(text);
+        button.setFont(new Font("Arial", Font.BOLD, 18));
+        button.setPreferredSize(new Dimension(75, 25));
+        button.setBackground(new Color(188, 188, 188));
+        return button;
+    }
+
+    private void setupEventListeners() {
+        start.addActionListener(e -> {
+            GameplayPanel gameplayPanel = new GameplayPanel(parentFrame, selectedCar, selectedTrack);
+            switchToPanel(gameplayPanel);
+            gameplayPanel.startGame();
+        });
+
+        chooseCar.addActionListener(e -> {
+            ChooseCarPanel chooseCarPanel = new ChooseCarPanel(parentFrame, this);
+            switchToPanel(chooseCarPanel);
+        });
+
+        chooseTrack.addActionListener(e -> {
+            ChooseTrackPanel chooseTrackPanel = new ChooseTrackPanel(parentFrame, this);
+            switchToPanel(chooseTrackPanel);
+        });
+
+        exit.addActionListener(e -> System.exit(0));
+    }
+
+    public void setSelectedCar(Car car) {
+        this.selectedCar = car;
+    }
+
+    public void setSelectedTrack(RaceTrack track) {
+        this.selectedTrack = track;
+    }
+
+    public Car getSelectedCar() {
+        return selectedCar;
+    }
+
+    public RaceTrack getSelectedTrack() {
+        return selectedTrack;
+    }
+
+    private void switchToPanel(JPanel newPanel) {
+        parentFrame.getContentPane().removeAll();
+        parentFrame.getContentPane().add(newPanel);
+        parentFrame.revalidate();
+        parentFrame.repaint();
+    }
+}

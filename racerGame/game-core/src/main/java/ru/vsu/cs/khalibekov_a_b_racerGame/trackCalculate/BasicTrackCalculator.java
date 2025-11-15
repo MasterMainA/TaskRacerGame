@@ -1,4 +1,4 @@
-package ru.vsu.cs.khalibekov_a_b.racerGame.models.trackCalculate;
+package ru.vsu.cs.khalibekov_a_b_racerGame.trackCalculate;
 
 public class BasicTrackCalculator implements TrackCalculator {
     private double a = 2.0;
