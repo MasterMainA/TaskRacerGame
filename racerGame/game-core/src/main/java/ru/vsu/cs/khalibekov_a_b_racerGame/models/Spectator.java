@@ -1,16 +1,11 @@
 package ru.vsu.cs.khalibekov_a_b_racerGame.models;
 
 /**
-<<<<<<< HEAD
  * Модель зрителя на трибуне.
  * Содержит данные о внешности (цвет кожи, одежды) и положении зрителя.
  * Не включает логику отрисовки - только данные.
  *
  * @author Khalibekov A.B.
-=======
- * Represents a spectator in the game
- * Contains only data - NO rendering code
->>>>>>> 01a6e8d5470b89a5d9177e2d319653e989cf2832
  */
 public class Spectator {
     public interface ColorSchema {
@@ -26,7 +21,6 @@ public class Spectator {
     private final int width;
     private final int height;
 
-<<<<<<< HEAD
     /**
      * Создает нового зрителя с заданными параметрами и случайным внешним видом.
      *
@@ -35,8 +29,6 @@ public class Spectator {
      * @param width ширина зрителя
      * @param height высота зрителя
      */
-=======
->>>>>>> 01a6e8d5470b89a5d9177e2d319653e989cf2832
     public Spectator(int x, int y, int width, int height) {
         this.x = x;
         this.y = y;

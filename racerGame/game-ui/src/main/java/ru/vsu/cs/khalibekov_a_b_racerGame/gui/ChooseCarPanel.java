@@ -5,14 +5,11 @@ import ru.vsu.cs.khalibekov_a_b_racerGame.models.Car;
 import javax.swing.*;
 import java.awt.*;
 
-<<<<<<< HEAD
 /**
  * Панель выбора автомобиля. Позволяет игроку выбрать один из трех типов машин.
  *
  * @author Khalibekov A.B.
  */
-=======
->>>>>>> 01a6e8d5470b89a5d9177e2d319653e989cf2832
 public class ChooseCarPanel extends JPanel {
     private JButton goBack;
     private JButton car1;
@@ -21,15 +18,12 @@ public class ChooseCarPanel extends JPanel {
     private JFrame parentFrame;
     private StartMenuPanel startMenuPanel;
 
-<<<<<<< HEAD
     /**
      * Создает панель выбора автомобиля.
      *
      * @param parentFrame родительское окно для навигации
      * @param startMenuPanel панель главного меню для возврата и установки выбранной машины
      */
-=======
->>>>>>> 01a6e8d5470b89a5d9177e2d319653e989cf2832
     public ChooseCarPanel(JFrame parentFrame, StartMenuPanel startMenuPanel) {
         this.parentFrame = parentFrame;
         this.startMenuPanel = startMenuPanel;
@@ -72,14 +66,11 @@ public class ChooseCarPanel extends JPanel {
         car3.addActionListener(e -> selectCar(3));
     }
 
-<<<<<<< HEAD
     /**
      * Выбирает автомобиль указанного типа и возвращается в главное меню.
      *
      * @param carType тип автомобиля (1, 2 или 3)
      */
-=======
->>>>>>> 01a6e8d5470b89a5d9177e2d319653e989cf2832
     private void selectCar(int carType) {
         Car selectedCar;
         switch (carType) {

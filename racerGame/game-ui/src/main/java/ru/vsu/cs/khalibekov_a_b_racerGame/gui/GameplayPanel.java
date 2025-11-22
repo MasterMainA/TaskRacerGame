@@ -15,15 +15,12 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.util.List;
 
-<<<<<<< HEAD
 /**
  * Панель геймплея. Отображает гоночный трек, автомобиль, трибуны со зрителями.
  * Управляет игровым процессом и обработкой ввода.
  *
  * @author Khalibekov A.B.
  */
-=======
->>>>>>> 01a6e8d5470b89a5d9177e2d319653e989cf2832
 public class GameplayPanel extends JPanel implements ActionListener {
     private JButton goToMenu;
     private GameEngine gameEngine;
@@ -34,7 +31,6 @@ public class GameplayPanel extends JPanel implements ActionListener {
     private Timer gameTimer;
     private JFrame parentFrame;
 
-<<<<<<< HEAD
     /**
      * Создает игровую панель с выбранными автомобилем и треком.
      *
@@ -42,8 +38,6 @@ public class GameplayPanel extends JPanel implements ActionListener {
      * @param selectedCar выбранный автомобиль для игры
      * @param selectedTrack выбранный трек для гонки
      */
-=======
->>>>>>> 01a6e8d5470b89a5d9177e2d319653e989cf2832
     public GameplayPanel(JFrame parentFrame, Car selectedCar, RaceTrack selectedTrack) {
         this.parentFrame = parentFrame;
         this.gameEngine = new GameEngine(selectedCar, selectedTrack);
@@ -80,14 +74,11 @@ public class GameplayPanel extends JPanel implements ActionListener {
         gameTimer = new Timer(16, this); // ~60 FPS
     }
 
-<<<<<<< HEAD
     /**
      * Отрисовывает все игровые элементы: трек, автомобиль, трибуны, зрителей и HUD.
      *
      * @param g графический контекст для отрисовки
      */
-=======
->>>>>>> 01a6e8d5470b89a5d9177e2d319653e989cf2832
     @Override
     public void paint(Graphics g) {
         super.paint(g);
@@ -108,7 +99,6 @@ public class GameplayPanel extends JPanel implements ActionListener {
         drawHUD(g2d);
     }
 
-<<<<<<< HEAD
     /**
      * Отрисовывает гоночный трек с внутренней и внешней границами.
      *
@@ -116,8 +106,6 @@ public class GameplayPanel extends JPanel implements ActionListener {
      * @param panelWidth ширина панели
      * @param panelHeight высота панели
      */
-=======
->>>>>>> 01a6e8d5470b89a5d9177e2d319653e989cf2832
     private void drawRaceTrack(Graphics2D g2d, int panelWidth, int panelHeight) {
         // Draw background
         drawCenteredRoundedRectangle(g2d, panelWidth, panelHeight, Color.BLACK, 0.9);
@@ -170,14 +158,11 @@ public class GameplayPanel extends JPanel implements ActionListener {
         g2d.drawPolygon(polygon);
     }
 
-<<<<<<< HEAD
     /**
      * Отрисовывает автомобиль с учетом его позиции и угла поворота.
      *
      * @param g2d графический контекст для отрисовки
      */
-=======
->>>>>>> 01a6e8d5470b89a5d9177e2d319653e989cf2832
     private void drawCar(Graphics2D g2d) {
         Car car = gameEngine.getPlayerCar();
         double x = car.getX();
@@ -206,7 +191,6 @@ public class GameplayPanel extends JPanel implements ActionListener {
         g2d.drawString(String.format("Angle: %.1f", Math.toDegrees(angle)), (int) x - 30, (int) y - 25);
     }
 
-<<<<<<< HEAD
     /**
      * Отрисовывает трибуны и зрителей вокруг трека.
      *
@@ -214,8 +198,6 @@ public class GameplayPanel extends JPanel implements ActionListener {
      * @param panelWidth ширина панели
      * @param panelHeight высота панели
      */
-=======
->>>>>>> 01a6e8d5470b89a5d9177e2d319653e989cf2832
     private void drawTribune(Graphics2D g2d, double panelWidth, double panelHeight) {
         if (tribune.getSpectators().isEmpty()) {
             tribune.createSpectators(panelWidth, panelHeight);
@@ -233,7 +215,6 @@ public class GameplayPanel extends JPanel implements ActionListener {
         }
     }
 
-<<<<<<< HEAD
     /**
      * Отрисовывает горизонтальную трибуну (верхнюю или нижнюю).
      *
@@ -242,8 +223,6 @@ public class GameplayPanel extends JPanel implements ActionListener {
      * @param panelHeight высота панели
      * @param isTop true для верхней трибуны, false для нижней
      */
-=======
->>>>>>> 01a6e8d5470b89a5d9177e2d319653e989cf2832
     private void drawHorizontalTribune(Graphics2D g2d, double panelWidth, double panelHeight, boolean isTop) {
         int x, y, width, height;
 
@@ -281,7 +260,6 @@ public class GameplayPanel extends JPanel implements ActionListener {
         }
     }
 
-<<<<<<< HEAD
     /**
      * Отрисовывает вертикальную трибуну (левую или правую).
      *
@@ -290,8 +268,6 @@ public class GameplayPanel extends JPanel implements ActionListener {
      * @param panelHeight высота панели
      * @param isLeft true для левой трибуны, false для правой
      */
-=======
->>>>>>> 01a6e8d5470b89a5d9177e2d319653e989cf2832
     private void drawVerticalTribune(Graphics2D g2d, double panelWidth, double panelHeight, boolean isLeft) {
         int x, y, width, height;
 
@@ -395,15 +371,12 @@ public class GameplayPanel extends JPanel implements ActionListener {
         }
     }
 
-<<<<<<< HEAD
     /**
      * Отрисовывает отдельного зрителя на трибуне.
      *
      * @param g2d графический контекст для отрисовки
      * @param spectator зритель для отрисовки
      */
-=======
->>>>>>> 01a6e8d5470b89a5d9177e2d319653e989cf2832
     private void drawSpectator(Graphics2D g2d, Spectator spectator) {
         int x = spectator.getX();
         int y = spectator.getY();
@@ -459,14 +432,11 @@ public class GameplayPanel extends JPanel implements ActionListener {
         g2d.fillRoundRect(x, y, rectWidth, rectHeight, arcWidth, arcHeight);
     }
 
-<<<<<<< HEAD
     /**
      * Обрабатывает игровые события и обновляет состояние игры.
      *
      * @param e игровое событие
      */
-=======
->>>>>>> 01a6e8d5470b89a5d9177e2d319653e989cf2832
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == gameTimer) {
@@ -487,12 +457,9 @@ public class GameplayPanel extends JPanel implements ActionListener {
         }
     }
 
-<<<<<<< HEAD
     /**
      * Запускает игровой процесс, активируя игровой движок и таймер.
      */
-=======
->>>>>>> 01a6e8d5470b89a5d9177e2d319653e989cf2832
     public void startGame() {
         gameEngine.startGame();
         this.requestFocusInWindow();
