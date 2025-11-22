@@ -1,12 +1,18 @@
-package ru.vsu.cs.khalibekov_a_b.racerGame.GUI;
+package ru.vsu.cs.khalibekov_a_b_racerGame.gui;
 
-import ru.vsu.cs.khalibekov_a_b.racerGame.RacingGame;
-import ru.vsu.cs.khalibekov_a_b.racerGame.models.trackCalculate.BasicTrackCalculator;
-import ru.vsu.cs.khalibekov_a_b.racerGame.models.RaceTrack;
+import ru.vsu.cs.khalibekov_a_b_racerGame.trackCalculate.BasicTrackCalculator;
+import ru.vsu.cs.khalibekov_a_b_racerGame.models.RaceTrack;
+import ru.vsu.cs.khalibekov_a_b_racerGame.models.Car;
 
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Панель выбора и настройки гоночного трека. Позволяет выбрать: базовый трек,
+ * генерировать случайные или настраивать параметры трека вручную.
+ *
+ * @author Khalibekov A.B.
+ */
 public class ChooseTrackPanel extends JPanel {
     private JButton backButton;
     private JButton basicTrackButton;
@@ -30,8 +36,18 @@ public class ChooseTrackPanel extends JPanel {
 
     private RaceTrack previewTrack;
     private BasicTrackCalculator currentCalculator;
+    private JFrame parentFrame;
+    private final StartMenuPanel startMenuPanel;
 
-    public ChooseTrackPanel() {
+    /**
+     * Создает панель выбора трека.
+     *
+     * @param parentFrame родительское окно для навигации
+     * @param startMenuPanel панель главного меню для возврата и установки выбранного трека
+     */
+    public ChooseTrackPanel(JFrame parentFrame, StartMenuPanel startMenuPanel) {
+        this.parentFrame = parentFrame;
+        this.startMenuPanel = startMenuPanel;
         setLayout(new BorderLayout());
         setBackground(new Color(81, 81, 81));
 
@@ -67,14 +83,7 @@ public class ChooseTrackPanel extends JPanel {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                if (previewTrack != null) {
-                    Graphics2D g2d = (Graphics2D) g;
-                    g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-                    g2d.translate(0, -155);
-                    previewTrack.drawForPreview(g);
-                    g2d.translate(0, 155);
-                }
+                drawTrackPreview(g);
             }
         };
 
@@ -84,6 +93,61 @@ public class ChooseTrackPanel extends JPanel {
 
         controlPanel = createControlPanel();
         parametersPanel = createParametersPanel();
+    }
+
+    /**
+     * Рисует превью трека в окне при выборе трека.
+     */
+    private void drawTrackPreview(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+        int width = previewPanel.getWidth();
+        int height = previewPanel.getHeight();
+        int centerX = width / 2;
+        int centerY = height / 2;
+
+        // Draw background
+        g2d.setColor(new Color(79, 144, 24));
+        g2d.fillRect(0, 0, width, height);
+
+        // Draw track
+        java.util.List<java.awt.geom.Point2D.Double> outerPoints = previewTrack.getOuterTrackPoints();
+        java.util.List<java.awt.geom.Point2D.Double> innerPoints = previewTrack.getInnerTrackPoints();
+
+        // Draw road area
+        Polygon roadPolygon = new Polygon();
+        for (java.awt.geom.Point2D.Double point : outerPoints) {
+            roadPolygon.addPoint(centerX + (int)point.x, centerY - (int)point.y);
+        }
+        for (int i = innerPoints.size() - 1; i >= 0; i--) {
+            java.awt.geom.Point2D.Double point = innerPoints.get(i);
+            roadPolygon.addPoint(centerX + (int)point.x, centerY - (int)point.y);
+        }
+
+        g2d.setColor(Color.GRAY);
+        g2d.fill(roadPolygon);
+
+        // Draw track boundaries
+        g2d.setColor(Color.WHITE);
+        g2d.setStroke(new BasicStroke(2f));
+        drawPreviewTrackPath(g2d, outerPoints, centerX, centerY);
+        drawPreviewTrackPath(g2d, innerPoints, centerX, centerY);
+    }
+
+    private void drawPreviewTrackPath(Graphics2D g2d, java.util.List<java.awt.geom.Point2D.Double> points, int centerX, int centerY) {
+        if (points.isEmpty()) return;
+
+        int[] xPoints = new int[points.size()];
+        int[] yPoints = new int[points.size()];
+
+        for (int i = 0; i < points.size(); i++) {
+            java.awt.geom.Point2D.Double point = points.get(i);
+            xPoints[i] = centerX + (int) point.x;
+            yPoints[i] = centerY - (int) point.y;
+        }
+
+        g2d.drawPolygon(xPoints, yPoints, points.size());
     }
 
     private void setupLayout() {
@@ -213,6 +277,10 @@ public class ChooseTrackPanel extends JPanel {
         return label;
     }
 
+    /**
+     * Обновляет значения параметров трека на основе позиций слайдеров
+     * и перерисовывает превью трека.
+     */
     private void updateParameterValues() {
         double aValue = aSlider.getValue() / 10.0;
         double bValue = bSlider.getValue() / 10.0;
@@ -225,10 +293,13 @@ public class ChooseTrackPanel extends JPanel {
         nValueLabel.setText(String.valueOf(nValue));
 
         currentCalculator.setParameters(aValue, bValue, mValue, nValue);
-
+        previewTrack.setTrackCalculator(currentCalculator);
         previewPanel.repaint();
     }
 
+    /**
+     * Устанавливает параметры для базового трека.
+     */
     private void setBasicTrack() {
         aSlider.setValue(20);
         bSlider.setValue(10);
@@ -237,43 +308,61 @@ public class ChooseTrackPanel extends JPanel {
         updateParameterValues();
     }
 
+    /**
+     * Генерирует случайный трек с произвольными параметрами.
+     */
     private void setRandomTrack() {
-        aSlider.setValue(10 + (int)(Math.random() * 16)); // 1.0 - 3.0
-        bSlider.setValue(5 + (int)(Math.random() * 16));  // 0.5 - 2.0
-        mSlider.setValue(1 + (int)(Math.random() * 4));   // 1-4
-        nSlider.setValue(1 + (int)(Math.random() * 4));   // 1-4
+        aSlider.setValue(10 + (int)(Math.random() * 16));
+        bSlider.setValue(5 + (int)(Math.random() * 16));
+        mSlider.setValue(1 + (int)(Math.random() * 4));
+        nSlider.setValue(1 + (int)(Math.random() * 4));
         updateParameterValues();
     }
 
     private void showControlPanel() {
-        remove(parametersPanel);
+        if (parametersPanel.getParent() != null) {
+            remove(parametersPanel);
+        }
         add(controlPanel, BorderLayout.SOUTH);
-        controlPanel.setVisible(true);
         revalidate();
         repaint();
     }
 
     private void showParametersPanel() {
-        remove(controlPanel);
+        if (controlPanel.getParent() != null) {
+            remove(controlPanel);
+        }
         add(parametersPanel, BorderLayout.SOUTH);
-        parametersPanel.setVisible(true);
         revalidate();
         repaint();
     }
 
+    /**
+     * Начинает игру с текущим выбранным треком.
+     */
     private void startGameWithCurrentTrack() {
-        RacingGame mainFrame = (RacingGame) SwingUtilities.getWindowAncestor(ChooseTrackPanel.this);
-        GameplayPanel gameplayPanel = new GameplayPanel();
+        // Create track with current calculator
+        RaceTrack selectedTrack = new RaceTrack();
+        selectedTrack.setTrackCalculator(currentCalculator);
 
-        gameplayPanel.setTrackCalculator(currentCalculator);
+        // Update selected track in start menu
+        startMenuPanel.setSelectedTrack(selectedTrack);
 
-        mainFrame.changePanel(gameplayPanel);
+        // Start game with selected car and track
+        Car selectedCar = startMenuPanel.getSelectedCar();
+        GameplayPanel gameplayPanel = new GameplayPanel(parentFrame, selectedCar, selectedTrack);
+        switchToPanel(gameplayPanel);
         gameplayPanel.startGame();
     }
 
     private void goBackToMainMenu() {
-        RacingGame mainFrame = (RacingGame) SwingUtilities.getWindowAncestor(ChooseTrackPanel.this);
-        StartMenuPanel startMenuPanel = new StartMenuPanel();
-        mainFrame.changePanel(startMenuPanel);
+        switchToPanel(startMenuPanel);
+    }
+
+    private void switchToPanel(JPanel newPanel) {
+        parentFrame.getContentPane().removeAll();
+        parentFrame.getContentPane().add(newPanel);
+        parentFrame.revalidate();
+        parentFrame.repaint();
     }
 }
