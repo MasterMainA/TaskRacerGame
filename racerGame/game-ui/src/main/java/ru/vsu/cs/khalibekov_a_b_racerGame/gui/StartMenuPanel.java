@@ -6,12 +6,15 @@ import ru.vsu.cs.khalibekov_a_b_racerGame.models.RaceTrack;
 import javax.swing.*;
 import java.awt.*;
 
+<<<<<<< HEAD
 /**
  * Панель главного меню игры. Содержит кнопки для начала игры, выбора машины,
  * выбора трека и выхода из приложения.
  *
  * @author Khalibekov A.B.
  */
+=======
+>>>>>>> 01a6e8d5470b89a5d9177e2d319653e989cf2832
 public class StartMenuPanel extends JPanel {
     private JButton start;
     private JButton chooseCar;
@@ -22,11 +25,14 @@ public class StartMenuPanel extends JPanel {
     private Car selectedCar;
     private RaceTrack selectedTrack;
 
+<<<<<<< HEAD
     /**
      * Создает панель главного меню.
      *
      * @param parentFrame родительское окно для навигации между панелями
      */
+=======
+>>>>>>> 01a6e8d5470b89a5d9177e2d319653e989cf2832
     public StartMenuPanel(JFrame parentFrame) {
         this.parentFrame = parentFrame;
 
@@ -82,20 +88,26 @@ public class StartMenuPanel extends JPanel {
         exit.addActionListener(e -> System.exit(0));
     }
 
+<<<<<<< HEAD
     /**
      * Устанавливает выбранный автомобиль для игры.
      *
      * @param car выбранный автомобиль
      */
+=======
+>>>>>>> 01a6e8d5470b89a5d9177e2d319653e989cf2832
     public void setSelectedCar(Car car) {
         this.selectedCar = car;
     }
 
+<<<<<<< HEAD
     /**
      * Устанавливает выбранный трек для игры.
      *
      * @param track выбранный трек
      */
+=======
+>>>>>>> 01a6e8d5470b89a5d9177e2d319653e989cf2832
     public void setSelectedTrack(RaceTrack track) {
         this.selectedTrack = track;
     }
@@ -108,9 +120,12 @@ public class StartMenuPanel extends JPanel {
         return selectedTrack;
     }
 
+<<<<<<< HEAD
     /**
      * Смена панели.
      */
+=======
+>>>>>>> 01a6e8d5470b89a5d9177e2d319653e989cf2832
     private void switchToPanel(JPanel newPanel) {
         parentFrame.getContentPane().removeAll();
         parentFrame.getContentPane().add(newPanel);

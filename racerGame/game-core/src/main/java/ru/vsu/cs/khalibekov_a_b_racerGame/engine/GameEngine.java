@@ -3,6 +3,7 @@ package ru.vsu.cs.khalibekov_a_b_racerGame.engine;
 import ru.vsu.cs.khalibekov_a_b_racerGame.models.Car;
 import ru.vsu.cs.khalibekov_a_b_racerGame.models.RaceTrack;
 
+<<<<<<< HEAD
 /**
  * Движок игры, управляющий основным игровым процессом.
  * Отвечает за обновление состояния игры, обработку столкновений, подсчет очков
@@ -10,6 +11,8 @@ import ru.vsu.cs.khalibekov_a_b_racerGame.models.RaceTrack;
  *
  * @author Khalibekov A.B.
  */
+=======
+>>>>>>> 01a6e8d5470b89a5d9177e2d319653e989cf2832
 public class GameEngine {
     private Car playerCar;
     private RaceTrack currentTrack;
@@ -25,6 +28,7 @@ public class GameEngine {
         this.score = 0;
     }
 
+<<<<<<< HEAD
     /**
      * Обновляет состояние игры за указанный промежуток времени.
      *
@@ -32,6 +36,8 @@ public class GameEngine {
      * @param acceleration ускорение автомобиля (-1 до 1, где -1 - торможение, 1 - ускорение)
      * @param steering угол поворота руля (-1 до 1, где -1 - влево, 1 - вправо)
      */
+=======
+>>>>>>> 01a6e8d5470b89a5d9177e2d319653e989cf2832
     public void update(double deltaTime, double acceleration, double steering) {
         if (!isGameRunning) return;
 
@@ -52,20 +58,26 @@ public class GameEngine {
         score = (int)(gameTime * 10 + Math.abs(playerCar.getSpeed()) * 0.5);
     }
 
+<<<<<<< HEAD
     /**
      * Начинает новую игру, сбрасывая время и счет.
      */
+=======
+>>>>>>> 01a6e8d5470b89a5d9177e2d319653e989cf2832
     public void startGame() {
         isGameRunning = true;
         gameTime = 0.0;
         score = 0;
     }
 
+<<<<<<< HEAD
     /**
      * Останавливает игру и возвращает финальный счет.
      *
      * @return финальное количество очков
      */
+=======
+>>>>>>> 01a6e8d5470b89a5d9177e2d319653e989cf2832
     public int stopGame() {
         isGameRunning = false;
         return score;

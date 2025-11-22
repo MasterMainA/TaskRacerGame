@@ -39,12 +39,15 @@ public class ChooseTrackPanel extends JPanel {
     private JFrame parentFrame;
     private final StartMenuPanel startMenuPanel;
 
+<<<<<<< HEAD
     /**
      * Создает панель выбора трека.
      *
      * @param parentFrame родительское окно для навигации
      * @param startMenuPanel панель главного меню для возврата и установки выбранного трека
      */
+=======
+>>>>>>> 01a6e8d5470b89a5d9177e2d319653e989cf2832
     public ChooseTrackPanel(JFrame parentFrame, StartMenuPanel startMenuPanel) {
         this.parentFrame = parentFrame;
         this.startMenuPanel = startMenuPanel;
@@ -95,9 +98,12 @@ public class ChooseTrackPanel extends JPanel {
         parametersPanel = createParametersPanel();
     }
 
+<<<<<<< HEAD
     /**
      * Рисует превью трека в окне при выборе трека.
      */
+=======
+>>>>>>> 01a6e8d5470b89a5d9177e2d319653e989cf2832
     private void drawTrackPreview(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);

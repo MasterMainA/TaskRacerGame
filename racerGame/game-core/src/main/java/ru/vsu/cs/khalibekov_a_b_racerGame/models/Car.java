@@ -1,5 +1,6 @@
 package ru.vsu.cs.khalibekov_a_b_racerGame.models;
 
+<<<<<<< HEAD
 /**
  * Представляет игровую машину с физикой движения.
  * Моделирует ускорение, торможение, трение и повороты автомобиля на трассе.
@@ -7,6 +8,8 @@ package ru.vsu.cs.khalibekov_a_b_racerGame.models;
  *
  * @author Khalibekov A.B.
  */
+=======
+>>>>>>> 01a6e8d5470b89a5d9177e2d319653e989cf2832
 public class Car {
     private double x;
     private double y;
@@ -20,12 +23,15 @@ public class Car {
     private final double FRICTION;
     private final double TURN_SPEED;
 
+<<<<<<< HEAD
     /**
      * Создает новый автомобиль с заданной начальной позицией.
      *
      * @param startX начальная координата X
      * @param startY начальная координата Y
      */
+=======
+>>>>>>> 01a6e8d5470b89a5d9177e2d319653e989cf2832
     public Car(double startX, double startY) {
         this.x = startX;
         this.y = startY;
@@ -40,6 +46,7 @@ public class Car {
         this.TURN_SPEED = 2.5;
     }
 
+<<<<<<< HEAD
     /**
      * Обновляет состояние автомобиля на основе управления и времени.
      *
@@ -47,6 +54,8 @@ public class Car {
      * @param steering поворот (-1 до 1)
      * @param deltaTime время с последнего обновления
      */
+=======
+>>>>>>> 01a6e8d5470b89a5d9177e2d319653e989cf2832
     public void update(double acceleration, double steering, double deltaTime) {
         if (acceleration > 0) {
             speed += ACCELERATION * deltaTime * acceleration;
@@ -87,22 +96,28 @@ public class Car {
         return angle;
     }
 
+<<<<<<< HEAD
     /**
      * Устанавливает новую позицию автомобиля.
      *
      * @param x координата X
      * @param y координата Y
      */
+=======
+>>>>>>> 01a6e8d5470b89a5d9177e2d319653e989cf2832
     public void setPosition(double x, double y) {
         this.x = x;
         this.y = y;
     }
 
+<<<<<<< HEAD
     /**
      * Устанавливает новый угол направления автомобиля.
      *
      * @param angle угол в радианах
      */
+=======
+>>>>>>> 01a6e8d5470b89a5d9177e2d319653e989cf2832
     public void setAngle(double angle) {
         this.angle = angle;
     }

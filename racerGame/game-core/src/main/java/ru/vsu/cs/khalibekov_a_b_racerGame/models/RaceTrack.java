@@ -5,6 +5,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
+<<<<<<< HEAD
 /**
  * Модель гоночной трассы, генерируемой математически.
  * Создает внутреннюю и внешнюю границы трассы на основе полярных координат
@@ -12,6 +13,8 @@ import java.util.List;
  *
  * @author Khalibekov A.B.
  */
+=======
+>>>>>>> 01a6e8d5470b89a5d9177e2d319653e989cf2832
 public class RaceTrack {
     private static final double SCALE = 100.0;
     private static final int POINT_COUNT = 128; // Увеличили на 1 для замыкания
@@ -20,28 +23,37 @@ public class RaceTrack {
     private List<Point2D.Double> outerTrackPoints;
     private List<Point2D.Double> innerTrackPoints;
 
+<<<<<<< HEAD
     /**
      * Создает новую гоночную трассу с калькулятором по умолчанию.
      */
+=======
+>>>>>>> 01a6e8d5470b89a5d9177e2d319653e989cf2832
     public RaceTrack() {
         this.trackCalculator = new ru.vsu.cs.khalibekov_a_b_racerGame.trackCalculate.BasicTrackCalculator();
         calculateTrackPoints();
     }
 
+<<<<<<< HEAD
     /**
      * Вычисляет точки для внутренней и внешней области дороги.
      */
+=======
+>>>>>>> 01a6e8d5470b89a5d9177e2d319653e989cf2832
     private void calculateTrackPoints() {
         outerTrackPoints = calculateTrackPath(SCALE);
         innerTrackPoints = calculateTrackPath(SCALE * 0.6);
     }
 
+<<<<<<< HEAD
     /**
      * Вычисляет точки трассы на основе полярных координат.
      *
      * @param scale масштаб для преобразования координат
      * @return список точек трассы в декартовых координатах
      */
+=======
+>>>>>>> 01a6e8d5470b89a5d9177e2d319653e989cf2832
     private List<Point2D.Double> calculateTrackPath(double scale) {
         List<Point2D.Double> points = new ArrayList<>();
 
@@ -55,16 +67,20 @@ public class RaceTrack {
         return points;
     }
 
+<<<<<<< HEAD
     /**
      * Вычисляет радиус трассы для заданного угла.
      *
      * @param theta угол в радианах
      * @return радиус трассы в заданном направлении
      */
+=======
+>>>>>>> 01a6e8d5470b89a5d9177e2d319653e989cf2832
     private double computeRadius(double theta) {
         return trackCalculator.compute(theta);
     }
 
+<<<<<<< HEAD
     /**
      * Преобразует полярные координаты в декартовы.
      *
@@ -73,17 +89,22 @@ public class RaceTrack {
      * @param scale масштабный коэффициент
      * @return точка в декартовой системе координат
      */
+=======
+>>>>>>> 01a6e8d5470b89a5d9177e2d319653e989cf2832
     private Point2D.Double polarToCartesian(double radius, double theta, double scale) {
         double x = radius * Math.cos(theta) * scale;
         double y = radius * Math.sin(theta) * scale;
         return new Point2D.Double(x, y);
     }
 
+<<<<<<< HEAD
     /**
      * Устанавливает новый калькулятор трассы и пересчитывает точки.
      *
      * @param trackCalculator калькулятор для генерации формы трассы
      */
+=======
+>>>>>>> 01a6e8d5470b89a5d9177e2d319653e989cf2832
     public void setTrackCalculator(TrackCalculator trackCalculator) {
         this.trackCalculator = trackCalculator;
         calculateTrackPoints();

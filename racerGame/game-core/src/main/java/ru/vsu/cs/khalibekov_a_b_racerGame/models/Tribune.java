@@ -3,6 +3,7 @@ package ru.vsu.cs.khalibekov_a_b_racerGame.models;
 import java.util.ArrayList;
 import java.util.List;
 
+<<<<<<< HEAD
 /**
  * Модель трибуны со зрителями.
  * Создает и управляет расположением зрителей на четырех трибунах
@@ -10,6 +11,8 @@ import java.util.List;
  *
  * @author Khalibekov A.B.
  */
+=======
+>>>>>>> 01a6e8d5470b89a5d9177e2d319653e989cf2832
 public class Tribune {
     private final int TRIBUNE_COLOR = 0x505050;
     private final int SEAT_COLOR = 0xC8C8C8;
@@ -24,12 +27,15 @@ public class Tribune {
 
     public Tribune() {}
 
+<<<<<<< HEAD
     /**
      * Создает зрителей на всех трибунах в соответствии с размерами панели.
      *
      * @param panelWidth ширина игровой панели
      * @param panelHeight высота игровой панели
      */
+=======
+>>>>>>> 01a6e8d5470b89a5d9177e2d319653e989cf2832
     public void createSpectators(double panelWidth, double panelHeight) {
         spectators.clear();
 
